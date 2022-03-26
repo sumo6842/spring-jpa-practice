@@ -1,10 +1,12 @@
 # spring_jpa_practice
 ### General:
 Query, Relationship, Other
+
 #### Jpa Queries
 * Query, using jpql syntax 
 * NativeQueries, SQL syntax
 * Criteria Api Query,programmatically
+* 
 #### Query
 * _sub-types_: TypedQuery, NamedQuery
     * Pros:   
@@ -33,6 +35,8 @@ EntityManager.createNamedQuery("Author.list-book");
   * Cons: 
     * It is always static
     * Dynamic sorting not supported
+#### Named Graphs:
+    
 #### Native queries
 
 ```
@@ -43,6 +47,7 @@ entityManager.createNativevQuery("SELECT name, id FROM Athor");
 	* Native query allow using database vendor-specific features, some time those feature give us queried better performance
 * Cons: The portability is maybe restrict.
   
+
 #### Criteria Queries API:
 * programmatically-built, type-safe queries.
 ```
@@ -63,3 +68,15 @@ return entityManager.createQuery(tupleQuery)
         .setParameter(_authorId, authorId)
         .getResultList();
 ```
+
+
+#### DAO pattern
+#### Spring Jdbc Templates
+* _JdbcTemplate_
+* _NamedParameterJdbcTemplate_
+### Paging and Sort:
+* Native Queries: 
+* PageImpl, Page, Sort 
+### Relationship and Other
+
+### Meta Model (supports criteria api)
