@@ -48,7 +48,7 @@ EntityManager.createNamedQuery("Author.list-book");
 #### Native queries
 
 ```
-entityManager.createNativevQuery("SELECT name, id FROM Athor");
+entityManager.createNativeQuery("SELECT name, id FROM Athor");
 ```
 * Pros:
 	* In case query complex, jpa-generated SQL Statement aren't the most optimized using native more effective
