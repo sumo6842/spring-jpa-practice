@@ -1,12 +1,20 @@
 # spring_jpa_practice
-### General:
-Query, Relationship, Other
+#### Table Of Content
+* [Jpa Queries](#jpa-queries) <br />
+* [Query](#query)
+* [Named Graph](#named-graphs)
+* [Native queries](#native-queries)
+* [Criteria API](#criteria-queries-api)
+* [DAO pattern](#dao-pattern)
+* [Spring Jdbc Templates](#spring-jdbc-templates)
+* [Paging and Sort](#paging-and-sort)
+* [Relationship and Other](#relationship-and-other)
 
-#### Jpa Queries
+### Meta Model (supports criteria api)
+### Jpa Queries
 * Query, using jpql syntax 
 * NativeQueries, SQL syntax
 * Criteria Api Query,programmatically
-* 
 #### Query
 * _sub-types_: TypedQuery, NamedQuery
     * Pros:   
