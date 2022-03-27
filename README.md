@@ -131,6 +131,35 @@ return entityManager.createQuery(tupleQuery)
 ### Paging and Sort:
 * Native Queries: 
 * PageImpl, Page, Sort 
+  * PageImpl
+    ```
+    public class AuthorPageImpl extends PageImpl<AuthorDto> implements Serializable {
+
+    static final long serialVersionUID = 1114715135625836949L;
+
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public AuthorPageImpl(
+            @JsonProperty("content") List<AuthorDto> content,
+            @JsonProperty("page_number") int number,
+            @JsonProperty("page_size") int size,
+            @JsonProperty("totalElements") Long totalElements,
+            @JsonProperty("pageable") JsonNode pageable,
+            @JsonProperty("totalPages") int totalPages,
+            @JsonProperty("sort") JsonNode sort,
+            @JsonProperty("first") boolean first,
+            @JsonProperty("numberOfElements") int numberOfElements) {
+        super(content, PageRequest.of(number, size), totalElements);
+    }
+
+    public AuthorPageImpl(List<AuthorDto> content, Pageable pageable, long total) {
+        super(content, pageable, total);
+    }
+
+    public AuthorPageImpl(List<AuthorDto> content) {
+        super(content);
+     }
+    }
+    ```
 ### Relationship and Other
 
 ### Meta Model (supports criteria api)
