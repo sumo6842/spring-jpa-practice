@@ -21,9 +21,19 @@ public class AuthorJdbcTemplateDao implements AuthorDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Transactional
+    @Override
+    public void deleteAuthor(Long id) {
+        String sql = "DELETE FROM author WHERE id = :authorId";
+        namedParameterJdbcTemplate.update(sql,
+                new MapSqlParameterSource().addValue("authorId", id));
+    }
+
     private AuthorJdbcMapper authorMapper() {
         return new AuthorJdbcMapper();
     }
+
+
     @Transactional(readOnly = true)
     @Override
     public Optional<Author> findById(Long id) {
@@ -32,6 +42,14 @@ public class AuthorJdbcTemplateDao implements AuthorDao {
         return Optional.ofNullable(author);
     }
 
+    @Transactional
+    @Override
+    public Author createNewAuthor(Author author) {
+        String sql = "INSERT INTO author(first_name, last_name) VALUES (?,?)";
+        var update = jdbcTemplate.update(sql,author.getFirstName(), author.getLastName());
+        System.out.println(update);
+        return null;
+    }
     @Override
     public Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName) {
         String sql = "SELECT * FROM author WHERE first_name = ? and last_name = ?";
@@ -51,22 +69,7 @@ public class AuthorJdbcTemplateDao implements AuthorDao {
         System.out.println(_author);
         return null;
     }
-    @Transactional
-    @Override
-    public Author createNewAuthor(Author author) {
-        String sql = "INSERT INTO author(first_name, last_name) VALUES (?,?)";
-        var update = jdbcTemplate.update(sql,author.getFirstName(), author.getLastName());
-        System.out.println(update);
-        return null;
-    }
 
-    @Transactional
-    @Override
-    public void deleteAuthor(Long id) {
-        String sql = "DELETE FROM author WHERE id = :authorId";
-        namedParameterJdbcTemplate.update(sql,
-                new MapSqlParameterSource().addValue("authorId", id));
-    }
 
     @Override
     public List<Author> findAll(Pageable pageable) {

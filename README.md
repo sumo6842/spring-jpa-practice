@@ -1,6 +1,6 @@
 # spring-jpa-practice
 #### Table Of Content
-* [Jpa Queries](#jpa-queries) <br />
+* [Jpa Queries](#jpa-queries)
 * [Query](#query)
 * [Named Graph](#named-graphs)
 * [Native queries](#native-queries)
@@ -80,8 +80,54 @@ return entityManager.createQuery(tupleQuery)
 
 #### DAO pattern
 #### Spring Jdbc Templates
-* _JdbcTemplate_
-* _NamedParameterJdbcTemplate_
+* _RowMapper_: 
+    ```
+  public class RowAuthorMapper implements RowMapper<Book> {
+    @Override
+    public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+        var id = rs.getLong("id");
+        var firstName = rs.getString("first_name");
+        var lastName = rs.getString("last_name");
+        return new Author(id, firstName, lastName);
+      }
+  }
+    ```
+* _JdbcTemplate_:
+    ```
+  private final JdbcTemplate jdbcTemplate;
+  
+  private AuthorJdbcMapper authorMapper() {
+        return new AuthorJdbcMapper();
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public Optional<Author> findById(Long id) {
+      String sql = "SELECT * FROM author WHERE id = ?";
+      var author = jdbcTemplate.queryForObject(sql, authorMapper(), id);
+      return Optional.ofNullable(author);
+  }
+    
+  @Transactional
+  @Override
+  public Author createNewAuthor(Author author) {
+      String sql = "INSERT INTO author(first_name, last_name) VALUES (?,?)";
+      var update = jdbcTemplate.update(sql,author.getFirstName(), author.getLastName());
+      System.out.println(update);
+      return null;
+  } 
+  ```
+* _NamedParameterJdbcTemplate_:
+  ```
+   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+   @Transactional
+   @Override
+   public void deleteAuthor(Long id) {
+       String sql = "DELETE FROM author WHERE id = :authorId";
+       namedParameterJdbcTemplate.update(sql,
+               new MapSqlParameterSource().addValue("authorId", id));
+   }
+  ```
 ### Paging and Sort:
 * Native Queries: 
 * PageImpl, Page, Sort 

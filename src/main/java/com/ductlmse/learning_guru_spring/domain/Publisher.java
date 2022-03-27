@@ -26,7 +26,8 @@ public class Publisher {
 
 
     @ManyToMany(
-            mappedBy = "publishers", cascade = CascadeType.ALL)
+            mappedBy = "publishers",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
     private Set<Book> books = new LinkedHashSet<>();
 
