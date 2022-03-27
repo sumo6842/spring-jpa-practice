@@ -23,7 +23,7 @@ public class AuthorPageImpl extends PageImpl<AuthorDto> implements Serializable 
             @JsonProperty("totalElements") Long totalElements,
             @JsonProperty("pageable") JsonNode pageable,
             @JsonProperty("totalPages") int totalPages,
-//            @JsonProperty("sort") JsonNode sort,
+            @JsonProperty("sort") JsonNode sort,
             @JsonProperty("first") boolean first,
             @JsonProperty("numberOfElements") int numberOfElements) {
         super(content, PageRequest.of(number, size), totalElements);

@@ -6,7 +6,9 @@ import com.ductlmse.learning_guru_spring.dto.AuthorDto;
 import com.ductlmse.learning_guru_spring.dto.AuthorPageImpl;
 import com.ductlmse.learning_guru_spring.repositories.AuthorPageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -16,16 +18,12 @@ import java.util.stream.Collectors;
 public class AuthorPageServiceImpl implements AuthorPageService {
     private final AuthorPageRepository authorPageRepository;
 
+    @Cacheable(cacheNames = "author_last_name", key = "lastName")
     public AuthorPageImpl findByLikeLastName(String lastName) {
         var listAuthor = authorPageRepository
-                .pageAuthorByLikeLastName("%" + lastName + "%", PageRequest.of(0, 25));
-        System.out.println("This is result: ");
-        listAuthor.getContent().forEach(System.out::println);
-
-        System.out.println("This is page: " + PageRequest.of(
-                listAuthor.getPageable().getPageNumber(),
-                listAuthor.getPageable().getPageSize()));
-        System.out.println("This is total: " + listAuthor.getTotalElements());
+                .pageAuthorByLikeLastName(
+                        "%" + lastName + "%",
+                        PageRequest.of(0, 25));
         return new AuthorPageImpl(
                 listAuthor.getContent()
                         .stream()
@@ -33,7 +31,8 @@ public class AuthorPageServiceImpl implements AuthorPageService {
                         .collect(Collectors.toList()),
                 PageRequest.of(
                         listAuthor.getPageable().getPageNumber(),
-                        listAuthor.getPageable().getPageSize()),
+                        listAuthor.getPageable().getPageSize(),
+                        Sort.by("firstName").descending()),
                 listAuthor.getTotalElements());
     }
 
