@@ -1,4 +1,4 @@
-# spring_jpa_practice
+# spring-jpa-practice
 #### Table Of Content
 * [Jpa Queries](#jpa-queries) <br />
 * [Query](#query)
